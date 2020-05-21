@@ -5,9 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +72,11 @@ public class UserRepositoryTest {
         assertThat(listOfUsers, contains(user));
     }
 
+    @Test
+    public void providingEmptyStringsToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("","", "");
+        assertThat(listOfUsers, contains(user));
+    }
 
 }
