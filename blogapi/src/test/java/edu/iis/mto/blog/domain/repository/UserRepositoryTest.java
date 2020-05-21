@@ -93,12 +93,16 @@ public class UserRepositoryTest {
 
     @Test
     public void providingValidLastNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
-
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(invalidName, "Smith", invalidEmail);
+        assertThat(listOfUsers, contains(user));
     }
 
     @Test
     public void providingPartOfLastNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
-
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(invalidName, "ith", invalidEmail);
+        assertThat(listOfUsers, contains(user));
     }
 
 }
