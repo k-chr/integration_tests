@@ -54,6 +54,13 @@ public class LikePostRepositoryTest {
         assertThat(listOfLikedPost, is(empty()));
     }
 
+    @Test
+    public void queryingNotEmptyRepositoryShouldResultInNotEmptyListOfLikedPosts() {
+        repository.save(likedPost);
+        var listOfLikedPosts = repository.findAll();
+        assertThat(listOfLikedPosts, is(not(empty())));
+    }
+
     private void initEntities() {
         userWithPost = new User();
         userWhoHadNotAnyPostsAndDidNotLikeAnyOthers = new User();
