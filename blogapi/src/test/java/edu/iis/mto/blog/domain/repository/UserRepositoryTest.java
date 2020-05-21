@@ -31,6 +31,7 @@ public class UserRepositoryTest {
     private final String invalidName = "thisIsSurelyInvalidFirstNameThatShouldNotExist";
     private final String invalidLastName = "thisIsSurelyInvalidLastNameThatShouldNotExist";
     private final String invalidEmail = "inAPerfectWorldEmailsLikeThisWouldNotExist@butThisIsNotAPerfect.World";
+    
     @Before
     public void setUp() {
         user = new User();
@@ -105,4 +106,17 @@ public class UserRepositoryTest {
         assertThat(listOfUsers, contains(user));
     }
 
+    @Test
+    public void providingValidEmailToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(invalidName, invalidLastName, "john@domain.com");
+        assertThat(listOfUsers, contains(user));
+    }
+
+    @Test
+    public void providingPartOfEmailToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(invalidName, invalidLastName, "domain.com");
+        assertThat(listOfUsers, contains(user));
+    }
 }
