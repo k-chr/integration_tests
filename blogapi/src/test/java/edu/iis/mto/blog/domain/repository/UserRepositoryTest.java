@@ -66,4 +66,15 @@ public class UserRepositoryTest {
         assertThat(persistedUser.getId(), notNullValue());
     }
 
+    @Test
+    public void providingValidFirstNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser(){
+
+    }
+
+    @Test
+    public void providingValidPartOfFirstNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser(){
+        
+    }
+
+
 }
