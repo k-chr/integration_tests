@@ -82,4 +82,11 @@ public class UserRepositoryTest {
         assertThat(listOfUsers, contains(user));
     }
 
+    @Test
+    public void providingAllInvalidDataToQueryRepositoryShouldReturnEmptyListOfUsersThatSurelyDoesNotContainGivenUser() {
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(invalidName, invalidLastName, invalidEmail);
+        assertThat(listOfUsers, is(empty()));
+        assertThat(listOfUsers, not(contains(user)));
+    }
 }
