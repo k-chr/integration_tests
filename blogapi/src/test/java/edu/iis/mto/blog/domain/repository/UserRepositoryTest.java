@@ -40,9 +40,7 @@ public class UserRepositoryTest {
 
     @Test
     public void shouldFindNoUsersIfRepositoryIsEmpty() {
-
         List<User> users = repository.findAll();
-
         assertThat(users, hasSize(0));
     }
 
@@ -50,7 +48,6 @@ public class UserRepositoryTest {
     public void shouldFindOneUsersIfRepositoryContainsOneUserEntity() {
         User persistedUser = entityManager.persist(user);
         List<User> users = repository.findAll();
-
         assertThat(users, hasSize(1));
         assertThat(users.get(0)
                         .getEmail(),
@@ -59,21 +56,19 @@ public class UserRepositoryTest {
 
     @Test
     public void shouldStoreANewUser() {
-
         User persistedUser = repository.save(user);
-
         assertThat(persistedUser.getId(), notNullValue());
     }
 
     @Test
-    public void providingValidFirstNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser(){
+    public void providingValidFirstNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
         entityManager.persist(user);
         var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", "", "");
         assertThat(listOfUsers, contains(user));
     }
 
     @Test
-    public void providingValidPartOfFirstNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser(){
+    public void providingValidPartOfFirstNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
         entityManager.persist(user);
         var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("an", "", "");
         assertThat(listOfUsers, contains(user));
