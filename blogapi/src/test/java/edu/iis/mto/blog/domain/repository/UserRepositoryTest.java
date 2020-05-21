@@ -1,12 +1,11 @@
 package edu.iis.mto.blog.domain.repository;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -68,12 +67,14 @@ public class UserRepositoryTest {
 
     @Test
     public void providingValidFirstNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser(){
-
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", "", "");
+        assertThat(listOfUsers, contains(user));
     }
 
     @Test
     public void providingValidPartOfFirstNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser(){
-        
+
     }
 
 
