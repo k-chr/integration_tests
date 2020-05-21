@@ -1,5 +1,8 @@
 package edu.iis.mto.blog.domain.repository;
 
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +27,9 @@ public class LikePostRepositoryTest {
     }
 
     @Test
-    public void templateTest() {
-        
+    public void queryingEmptyRepositoryShouldResultInEmptyListOfLikedPost() {
+        var listOfLikedPost = repository.findAll();
+        assertThat(listOfLikedPost, is(empty()));
     }
+    
 }
