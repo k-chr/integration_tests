@@ -1,5 +1,8 @@
 package edu.iis.mto.blog.domain.repository;
 
+import static edu.iis.mto.blog.domain.repository.LikePostMatcher.hasContentSuchAs;
+import static edu.iis.mto.blog.domain.repository.LikePostMatcher.isLikedBy;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
@@ -64,6 +67,14 @@ public class LikePostRepositoryTest {
     }
 
     @Test
+    public void queryingRepositoryWithOneLikePostShouldReturnLikePostWithGivenUserAndBlogPost() {
+        repository.save(likedPost);
+        var post = repository.findAll().get(0);
+        assertThat(post, isLikedBy(userWhoLikedPost));
+        assertThat(post, hasContentSuchAs(postToBeLiked));
+    }
+
+    @Test
     public void modifiedPostShouldKeepItsModificationsInDatabase() {
         repository.save(likedPost);
         var likedPostBeforeModification = repository.findById(likedPost.getId()).get();
@@ -72,6 +83,13 @@ public class LikePostRepositoryTest {
         var likedPostAfterModifications = repository.findById(likedPost.getId()).get();
         var message = likedPostAfterModifications.getPost().getEntry();
         assertThat(message, is(equalTo(modifiedMessage)));
+    }
+
+    @Test
+    public void savedPostShouldHaveNotNullId() {
+        repository.save(likedPost);
+        var id = likedPost.getId();
+        assertThat(id, is(notNullValue()));
     }
 
     private void initEntities() {
