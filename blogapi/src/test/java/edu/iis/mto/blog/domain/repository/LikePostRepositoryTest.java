@@ -38,6 +38,8 @@ public class LikePostRepositoryTest {
 
     private LikePost likedPost;
 
+    private final String modifiedMessage = "Modified post";
+
     @Before
     public void setUp() {
         initEntities();
@@ -59,6 +61,17 @@ public class LikePostRepositoryTest {
         repository.save(likedPost);
         var listOfLikedPosts = repository.findAll();
         assertThat(listOfLikedPosts, is(not(empty())));
+    }
+
+    @Test
+    public void modifiedPostShouldKeepItsModificationsInDatabase() {
+        repository.save(likedPost);
+        var likedPostBeforeModification = repository.findById(likedPost.getId()).get();
+        likedPostBeforeModification.getPost().setEntry(modifiedMessage);
+        repository.save(likedPostBeforeModification);
+        var likedPostAfterModifications = repository.findById(likedPost.getId()).get();
+        var message = likedPostAfterModifications.getPost().getEntry();
+        assertThat(message, is(equalTo(modifiedMessage)));
     }
 
     private void initEntities() {
