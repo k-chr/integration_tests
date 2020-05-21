@@ -39,7 +39,7 @@ public class UserRepositoryTest {
         user.setAccountStatus(AccountStatus.NEW);
     }
 
-    @Ignore
+    //@Ignore
     @Test
     public void shouldFindNoUsersIfRepositoryIsEmpty() {
 
