@@ -40,13 +40,13 @@ public class LikePostRepositoryTest {
 
     @Before
     public void setUp() {
-        initUsers();
+        initEntities();
         initUser(userWithPost, "Jack", "White", "jack_white@thirdmanrecords.com", AccountStatus.NEW);
         initUser(userWhoLikedPost, "Bruce", "Willis", "die_hard@gmail.com", AccountStatus.NEW);
         initUser(userWhoHadNotAnyPostsAndDidNotLikeAnyOthers, "Anonymous", "Nameless", "anon@o2.pl", AccountStatus.NEW);
-
+        initBlogPost(postToBeLiked, userWithPost, "template data");
+        initLikePost(likedPost, userWhoLikedPost, postToBeLiked);
     }
-
 
     @Test
     public void queryingEmptyRepositoryShouldResultInEmptyListOfLikedPost() {
@@ -54,10 +54,14 @@ public class LikePostRepositoryTest {
         assertThat(listOfLikedPost, is(empty()));
     }
 
-    private void initUsers() {
+    private void initEntities() {
         userWithPost = new User();
         userWhoHadNotAnyPostsAndDidNotLikeAnyOthers = new User();
         userWhoLikedPost = new User();
+
+        likedPost = new LikePost();
+
+        postToBeLiked = new BlogPost();
     }
 
     private void initUser(User user, String firstName, String lastName, String email, AccountStatus status) {
@@ -68,5 +72,14 @@ public class LikePostRepositoryTest {
         userRepository.save(user);
     }
 
+    private void initBlogPost(BlogPost post, User user, String data) {
+        post.setUser(user);
+        post.setEntry(data);
+        entityManager.persist(post);
+    }
 
+    private void initLikePost(LikePost likedPost, User user, BlogPost blogPost) {
+        likedPost.setUser(user);
+        likedPost.setPost(blogPost);
+    }
 }
