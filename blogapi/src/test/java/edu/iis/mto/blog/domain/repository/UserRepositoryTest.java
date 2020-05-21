@@ -74,7 +74,9 @@ public class UserRepositoryTest {
 
     @Test
     public void providingValidPartOfFirstNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser(){
-
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("an", "", "");
+        assertThat(listOfUsers, contains(user));
     }
 
 
