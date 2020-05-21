@@ -3,6 +3,9 @@ package edu.iis.mto.blog.domain.repository;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
+import edu.iis.mto.blog.domain.model.BlogPost;
+import edu.iis.mto.blog.domain.model.LikePost;
+import edu.iis.mto.blog.domain.model.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +24,14 @@ public class LikePostRepositoryTest {
     @Autowired
     private LikePostRepository repository;
 
+    private User userWithPost;
+    private User userWhoLikedPost;
+    private User userWhoHadNotAnyPostsAndDidNotLikeAnyOthers;
+
+    private BlogPost postToBeLiked;
+    
+    private LikePost likedPost;
+
     @Before
     public void setUp() {
         
@@ -31,5 +42,6 @@ public class LikePostRepositoryTest {
         var listOfLikedPost = repository.findAll();
         assertThat(listOfLikedPost, is(empty()));
     }
-    
+
+
 }
