@@ -35,6 +35,7 @@ public class UserRepositoryTest {
     public void setUp() {
         user = new User();
         user.setFirstName("Jan");
+        user.setLastName("Smith");
         user.setEmail("john@domain.com");
         user.setAccountStatus(AccountStatus.NEW);
     }
@@ -89,4 +90,15 @@ public class UserRepositoryTest {
         assertThat(listOfUsers, is(empty()));
         assertThat(listOfUsers, not(contains(user)));
     }
+
+    @Test
+    public void providingValidLastNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
+
+    }
+
+    @Test
+    public void providingPartOfLastNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
+
+    }
+
 }
