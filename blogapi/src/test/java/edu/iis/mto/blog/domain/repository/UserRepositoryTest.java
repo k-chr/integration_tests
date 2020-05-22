@@ -1,14 +1,11 @@
 package edu.iis.mto.blog.domain.repository;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,42 +28,95 @@ public class UserRepositoryTest {
 
     private User user;
 
+    private final String invalidName = "thisIsSurelyInvalidFirstNameThatShouldNotExist";
+    private final String invalidLastName = "thisIsSurelyInvalidLastNameThatShouldNotExist";
+    private final String invalidEmail = "inAPerfectWorldEmailsLikeThisWouldNotExist@butThisIsNotAPerfect.World";
+    
     @Before
     public void setUp() {
         user = new User();
         user.setFirstName("Jan");
+        user.setLastName("Smith");
         user.setEmail("john@domain.com");
         user.setAccountStatus(AccountStatus.NEW);
     }
 
-    @Ignore
     @Test
     public void shouldFindNoUsersIfRepositoryIsEmpty() {
-
         List<User> users = repository.findAll();
-
         assertThat(users, hasSize(0));
     }
 
-    @Ignore
     @Test
     public void shouldFindOneUsersIfRepositoryContainsOneUserEntity() {
         User persistedUser = entityManager.persist(user);
         List<User> users = repository.findAll();
-
         assertThat(users, hasSize(1));
         assertThat(users.get(0)
                         .getEmail(),
                 equalTo(persistedUser.getEmail()));
     }
 
-    @Ignore
     @Test
     public void shouldStoreANewUser() {
-
         User persistedUser = repository.save(user);
-
         assertThat(persistedUser.getId(), notNullValue());
     }
 
+    @Test
+    public void providingValidFirstNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", invalidLastName, invalidEmail);
+        assertThat(listOfUsers, contains(user));
+    }
+
+    @Test
+    public void providingValidPartOfFirstNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("an", invalidLastName, invalidEmail);
+        assertThat(listOfUsers, contains(user));
+    }
+
+    @Test
+    public void providingEmptyStringsToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("","", "");
+        assertThat(listOfUsers, contains(user));
+    }
+
+    @Test
+    public void providingAllInvalidDataToQueryRepositoryShouldReturnEmptyListOfUsersThatSurelyDoesNotContainGivenUser() {
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(invalidName, invalidLastName, invalidEmail);
+        assertThat(listOfUsers, is(empty()));
+        assertThat(listOfUsers, not(contains(user)));
+    }
+
+    @Test
+    public void providingValidLastNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(invalidName, "Smith", invalidEmail);
+        assertThat(listOfUsers, contains(user));
+    }
+
+    @Test
+    public void providingPartOfLastNameToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(invalidName, "ith", invalidEmail);
+        assertThat(listOfUsers, contains(user));
+    }
+
+    @Test
+    public void providingValidEmailToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(invalidName, invalidLastName, "john@domain.com");
+        assertThat(listOfUsers, contains(user));
+    }
+
+    @Test
+    public void providingPartOfEmailToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
+        entityManager.persist(user);
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase(invalidName, invalidLastName, "domain.com");
+        assertThat(listOfUsers, contains(user));
+    }
 }
