@@ -92,6 +92,17 @@ public class LikePostRepositoryTest {
         assertThat(id, is(notNullValue()));
     }
 
+    @Test
+    public void providingUserWhoLikedPostAndMentionedPostToQueryRepositoryShouldReturnLikeThaIsNotNull() {
+        repository.save(likedPost);
+        var likedPostOptional = repository.findByUserAndPost(userWhoLikedPost, postToBeLiked);
+        var condition = likedPostOptional.isPresent();
+        assertThat(condition, is(not(false)));
+        var likedPost = likedPostOptional.get();
+        assertThat(likedPost, isLikedBy(userWhoLikedPost));
+        assertThat(likedPost, hasContentSuchAs(postToBeLiked));
+    }
+
     private void initEntities() {
         userWithPost = new User();
         userWhoHadNotAnyPostsAndDidNotLikeAnyOthers = new User();
