@@ -1,5 +1,6 @@
 package edu.iis.mto.blog.domain;
 
+import static edu.iis.mto.blog.domain.ExceptionMatcher.hasMessage;
 import static edu.iis.mto.blog.domain.repository.LikePostMatcher.hasContentSuchAs;
 import static edu.iis.mto.blog.domain.repository.LikePostMatcher.isLikedBy;
 
@@ -80,13 +81,14 @@ public class BlogManagerTest {
     }
 
     @Test
-    public void ifUserWithoutConfirmedAccountStatusTriedToLikePostItShouldEndUpWithDomainExceptionThrown() {
+    public void ifUserWithoutConfirmedAccountStatusTriedToLikePostItShouldEndUpWithDomainErrorThrown() {
         when(userRepository.findById(FAKE_USER_ID_1)).thenReturn(Optional.of(owner));
         when(userRepository.findById(FAKE_USER_ID_2)).thenReturn(Optional.of(theManWhoLikes));
         when(blogPostRepository.findById(FAKE_POST_ID_1)).thenReturn(Optional.of(post));
         when(likePostRepository.findByUserAndPost(theManWhoLikes, post)).thenReturn(Optional.empty());
 
-        assertThrows(DomainError.class, () -> blogService.addLikeToPost(FAKE_USER_ID_2, FAKE_POST_ID_1));
+        var exception = assertThrows(DomainError.class, () -> blogService.addLikeToPost(FAKE_USER_ID_2, FAKE_POST_ID_1));
+        assertThat(exception, hasMessage(DomainError.USER_NOT_CONFIRMED));
     }
 
     @Test
@@ -101,10 +103,22 @@ public class BlogManagerTest {
         var likePostCaptor = ArgumentCaptor.forClass(LikePost.class);
         verify(likePostRepository).save(likePostCaptor.capture());
         var likePost = likePostCaptor.getValue();
+        
         assertThat(likePost, isLikedBy(theManWhoLikes));
         assertThat(likePost, hasContentSuchAs(post));
     }
-    
+
+    @Test
+    public void ifConfirmedUserTriedToLikeOwnPostItShouldEndUpWithDomainErrorThrown() {
+        owner.setAccountStatus(AccountStatus.CONFIRMED);
+        when(userRepository.findById(FAKE_USER_ID_1)).thenReturn(Optional.of(owner));
+        when(blogPostRepository.findById(FAKE_POST_ID_1)).thenReturn(Optional.of(post));
+        when(likePostRepository.findByUserAndPost(owner, post)).thenReturn(Optional.empty());
+
+        var exception = assertThrows(DomainError.class, ()->blogService.addLikeToPost(FAKE_USER_ID_1, FAKE_POST_ID_1));
+        assertThat(exception, hasMessage(DomainError.SELF_LIKE));
+    }
+
     private void initEntities(){
         owner = new User();
         theManWhoLikes = new User();
