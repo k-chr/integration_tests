@@ -1,12 +1,15 @@
 package edu.iis.mto.blog.domain;
 
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
+import edu.iis.mto.blog.domain.errors.DomainError;
 import edu.iis.mto.blog.domain.model.BlogPost;
 import edu.iis.mto.blog.domain.repository.BlogPostRepository;
 import edu.iis.mto.blog.domain.repository.LikePostRepository;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +26,8 @@ import edu.iis.mto.blog.domain.model.User;
 import edu.iis.mto.blog.domain.repository.UserRepository;
 import edu.iis.mto.blog.mapper.BlogDataMapper;
 import edu.iis.mto.blog.services.BlogService;
+
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -63,7 +68,7 @@ public class BlogManagerTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
         initEntities();
         initUser(owner, "Edward", "McDonald", "some_mail@example.com", AccountStatus.NEW, FAKE_USER_ID_1);
         initUser(theManWhoLikes, "Sigfrid", "Lehman", "sig@elpmaxe.com", AccountStatus.NEW, FAKE_USER_ID_2);
@@ -71,8 +76,13 @@ public class BlogManagerTest {
     }
 
     @Test
-    public void ifUserWithNotConfirmedAccountStatusTriedToLikePostItShouldEndUpWithDomainExceptionThrown() {
+    public void ifUserWithoutConfirmedAccountStatusTriedToLikePostItShouldEndUpWithDomainExceptionThrown() {
+        when(userRepository.findById(FAKE_USER_ID_1)).thenReturn(Optional.of(owner));
+        when(userRepository.findById(FAKE_USER_ID_2)).thenReturn(Optional.of(theManWhoLikes));
+        when(blogPostRepository.findById(FAKE_POST_ID_1)).thenReturn(Optional.of(post));
+        when(likePostRepository.findByUserAndPost(theManWhoLikes, post)).thenReturn(Optional.empty());
 
+        assertThrows(DomainError.class, () -> blogService.addLikeToPost(FAKE_USER_ID_2, FAKE_POST_ID_1));
     }
 
     private void initEntities(){
