@@ -52,6 +52,16 @@ public class BlogApiTest {
            .andExpect(content().string(writeJson(new Id(newUserId))));
     }
 
+    @Test
+    public void ifDataLayerThrewDataIntegrityViolationExceptionOnDataAccessAttemptBlogApiShouldReturnErrorResponseWith409Code() {
+        
+    }
+
+    @Test
+    public void ifDataLayerCanNotFindUserByDataProvidedInQueryBlogApiShouldReturnErrorResponseWith404Code() {
+        
+    }
+
     private String writeJson(Object obj) throws JsonProcessingException {
         return new ObjectMapper().writer()
                                  .writeValueAsString(obj);
