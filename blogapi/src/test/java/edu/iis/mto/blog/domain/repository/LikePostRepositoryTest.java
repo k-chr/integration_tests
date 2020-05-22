@@ -103,6 +103,14 @@ public class LikePostRepositoryTest {
         assertThat(likedPost, hasContentSuchAs(postToBeLiked));
     }
 
+    @Test
+    public void providingUserWhoDidNotLikePostToQueryRepositoryShouldReturnLikeThatIsNotPresent() {
+        repository.save(likedPost);
+        var like = repository.findByUserAndPost(userWhoHadNotAnyPostsAndDidNotLikeAnyOthers, postToBeLiked);
+        var condition = like.isPresent();
+        assertThat(condition, is(not(true)));
+    }
+
     private void initEntities() {
         userWithPost = new User();
         userWhoHadNotAnyPostsAndDidNotLikeAnyOthers = new User();
