@@ -44,4 +44,10 @@ public class BlogManagerTest {
         assertThat(user.getAccountStatus(), Matchers.equalTo(AccountStatus.NEW));
     }
 
+    @Test
+    public void ifUserWithNotConfirmedAccountStatusTriedToLikePostItShouldEndUpWithDomainExceptionThrown() {
+
+    }
+
+    
 }
