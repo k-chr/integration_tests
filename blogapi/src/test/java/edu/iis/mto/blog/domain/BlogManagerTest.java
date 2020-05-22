@@ -3,7 +3,11 @@ package edu.iis.mto.blog.domain;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 
+import edu.iis.mto.blog.domain.model.BlogPost;
+import edu.iis.mto.blog.domain.repository.BlogPostRepository;
+import edu.iis.mto.blog.domain.repository.LikePostRepository;
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -27,6 +31,12 @@ public class BlogManagerTest {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private BlogPostRepository blogPostRepository;
+
+    @MockBean
+    private LikePostRepository likePostRepository;
+
     @Autowired
     private BlogDataMapper dataMapper;
 
@@ -36,6 +46,14 @@ public class BlogManagerTest {
     @Captor
     private ArgumentCaptor<User> userParam;
 
+    private final long FAKE_USER_ID_1 = 0x01;
+    private final long FAKE_USER_ID_2 = 0x02;
+    private final long FAKE_POST_ID_1 = 0x03;
+
+    private User owner;
+    private User theManWhoLikes;
+    private BlogPost post;
+
     @Test
     public void creatingNewUserShouldSetAccountStatusToNEW() {
         blogService.createUser(new UserRequest("John", "Steward", "john@domain.com"));
@@ -44,10 +62,36 @@ public class BlogManagerTest {
         assertThat(user.getAccountStatus(), Matchers.equalTo(AccountStatus.NEW));
     }
 
+    @Before
+    public void setUp() throws Exception {
+        initEntities();
+        initUser(owner, "Edward", "McDonald", "some_mail@example.com", AccountStatus.NEW, FAKE_USER_ID_1);
+        initUser(theManWhoLikes, "Sigfrid", "Lehman", "sig@elpmaxe.com", AccountStatus.NEW, FAKE_USER_ID_2);
+        initBlogPost(post, owner, "Example data", FAKE_POST_ID_1);
+    }
+
     @Test
     public void ifUserWithNotConfirmedAccountStatusTriedToLikePostItShouldEndUpWithDomainExceptionThrown() {
 
     }
 
-    
+    private void initEntities(){
+        owner = new User();
+        theManWhoLikes = new User();
+        post = new BlogPost();
+    }
+
+    private void initUser(User user, String firstName, String lastName, String email, AccountStatus status, Long id) {
+        user.setEmail(email);
+        user.setAccountStatus(status);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setId(id);
+    }
+
+    private void initBlogPost(BlogPost post, User user, String data, Long id) {
+        post.setUser(user);
+        post.setEntry(data);
+        post.setId(id);
+    }
 }
