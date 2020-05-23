@@ -9,6 +9,19 @@ import org.hamcrest.TypeSafeMatcher;
 
 public class LikePostMatcher extends TypeSafeMatcher<LikePost> {
 
+    private Mode mode;
+    private User userToMatch;
+    private BlogPost blogToMatch;
+
+    private LikePostMatcher(User user) {
+        mode = Mode.User;
+        userToMatch = user;
+    }
+    private LikePostMatcher(BlogPost blog) {
+        blogToMatch = blog;
+        mode = Mode.Blog;
+    }
+
     public static Matcher<LikePost> isLikedBy(User userWhoLikedPost) {
         return new LikePostMatcher(userWhoLikedPost);
     }
@@ -17,28 +30,9 @@ public class LikePostMatcher extends TypeSafeMatcher<LikePost> {
         return new LikePostMatcher(postToBeLiked);
     }
 
-    private enum Mode{
-        User,
-        Blog
-    }
-
-    private Mode mode;
-    private User userToMatch;
-    private BlogPost blogToMatch;
-
-    private LikePostMatcher(User user){
-        mode = Mode.User;
-        userToMatch = user;
-    }
-
-    private LikePostMatcher(BlogPost blog){
-        blogToMatch = blog;
-        mode = Mode.Blog;
-    }
-
     @Override
     protected boolean matchesSafely(LikePost likePost) {
-        switch (mode){
+        switch (mode) {
             case Blog:
                 return blogToMatch.equals(likePost.getPost());
             case User:
@@ -51,5 +45,10 @@ public class LikePostMatcher extends TypeSafeMatcher<LikePost> {
     @Override
     public void describeTo(Description description) {
 
+    }
+
+    private enum Mode {
+        User,
+        Blog
     }
 }

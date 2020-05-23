@@ -24,24 +24,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 @DataJpaTest
 public class LikePostRepositoryTest {
 
+    private final String modifiedMessage = "Modified post";
     @Autowired
     private TestEntityManager entityManager;
-
     @Autowired
     private LikePostRepository repository;
-
     @Autowired
     private UserRepository userRepository;
-
     private User userWithPost;
     private User userWhoLikedPost;
     private User userWhoHadNotAnyPostsAndDidNotLikeAnyOthers;
-
     private BlogPost postToBeLiked;
-
     private LikePost likedPost;
-
-    private final String modifiedMessage = "Modified post";
 
     @Before
     public void setUp() {

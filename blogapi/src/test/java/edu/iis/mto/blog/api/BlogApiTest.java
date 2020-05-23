@@ -53,10 +53,10 @@ public class BlogApiTest {
         String content = writeJson(user);
 
         mvc.perform(post("/blog/user").contentType(MediaType.APPLICATION_JSON)
-                                      .accept(MediaType.APPLICATION_JSON)
-                                      .content(content))
-           .andExpect(status().isCreated())
-           .andExpect(content().string(writeJson(new Id(newUserId))));
+                .accept(MediaType.APPLICATION_JSON)
+                .content(content))
+                .andExpect(status().isCreated())
+                .andExpect(content().string(writeJson(new Id(newUserId))));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class BlogApiTest {
 
     private String writeJson(Object obj) throws JsonProcessingException {
         return new ObjectMapper().writer()
-                                 .writeValueAsString(obj);
+                .writeValueAsString(obj);
     }
 
 }
