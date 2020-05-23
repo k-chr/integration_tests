@@ -29,7 +29,15 @@ public class AddBlogPostTest extends FunctionalTests {
 
     @Test
     void attemptToAddPostByConfirmedUserShouldEndUpWithResponseSuccessWithCreatedStatus() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .body(testJson())
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_CREATED)
+                .when()
+                .post(createPostApiForId(USER_CONFIRMED));
     }
 
     @Test
