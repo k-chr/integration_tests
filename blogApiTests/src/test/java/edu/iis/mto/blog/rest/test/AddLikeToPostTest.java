@@ -76,7 +76,14 @@ public class AddLikeToPostTest extends FunctionalTests {
 
     @Test
     void attemptToAddLikeToPostByUserWhoCreatedThatPostShouldEndUpWithResponseErrorWithBadRequestStatus() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .when()
+                .post(likeApiForUserIdAndPostId(POST_OWNER, POST_ID));
     }
 
     @Test
