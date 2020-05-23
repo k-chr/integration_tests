@@ -44,15 +44,15 @@ public class AddLikeToPostTest extends FunctionalTests {
                 .post(likeApiForUserIdAndPostId(FIRST_LIKER, POST_ID));
 
         given().accept(ContentType.JSON)
-                .header("Content-Type", "application/json;charset=UTF-8")
+                .header(TYPE, OPTION_JSON)
                 .expect()
                 .log()
                 .all()
                 .statusCode(HttpStatus.SC_OK)
                 .when()
-                .get(postApiForId(POST_OWNER))
+                .get(postApiForPostId(POST_ID))
                 .then()
-                .body("likesCount", hasItem(1));
+                .body("likesCount", is(equalTo(1)));
 
         given().accept(ContentType.JSON)
                 .header(TYPE, OPTION_JSON)
@@ -65,15 +65,15 @@ public class AddLikeToPostTest extends FunctionalTests {
 
         given()
                 .accept(ContentType.JSON)
-                .header("Content-Type", "application/json;charset=UTF-8")
+                .header(TYPE, OPTION_JSON)
                 .expect()
                 .log()
                 .all()
                 .statusCode(HttpStatus.SC_OK)
                 .when()
-                .get(postApiForId(POST_OWNER))
+                .get(postApiForPostId(POST_ID))
                 .then()
-                .body("likesCount", hasItem(1));
+                .body("likesCount", is(equalTo(1)));
     }
 
     @Test
@@ -126,6 +126,45 @@ public class AddLikeToPostTest extends FunctionalTests {
 
     @Test
     void attemptToAddLikeToPostByAnotherConfirmedUserShouldEndUpWithChangeInLikesCountOfThatPost() {
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .when()
+                .post(likeApiForUserIdAndPostId(FIRST_LIKER, POST_ID_2));
 
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .when()
+                .get(postApiForPostId(POST_ID_2))
+                .then()
+                .body("likesCount", is(equalTo(1)));
+
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .when()
+                .post(likeApiForUserIdAndPostId(SECOND_LIKER, POST_ID_2));
+
+        given()
+                .accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .when()
+                .get(postApiForPostId(POST_ID_2))
+                .then()
+                .body("likesCount", is(equalTo(2)));
     }
 }

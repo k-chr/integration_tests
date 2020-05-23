@@ -21,7 +21,7 @@ public class CreateUserTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_CREATED)
                .when()
-               .post(USER_API);
+               .post(userApi());
     }
 
     @Test
@@ -35,6 +35,6 @@ public class CreateUserTest extends FunctionalTests {
                 .all()
                 .statusCode(HttpStatus.SC_CONFLICT)
                 .when()
-                .post(USER_API);
+                .post(userApi());
     }
 }
