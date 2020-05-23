@@ -7,3 +7,4 @@ insert into user (account_status, email, first_name, last_name) values ('CONFIRM
 insert into user (account_status, email, first_name, last_name) values ('CONFIRMED', 'thisLoginSurelyNotExists@domain.com', 'Anonymous', 'Nameless')
 insert into blog_post values (null, 'some not important notes of confirmed user with id 1', 1)
 insert into blog_post values (null, 'another not important notes of confirmed user with id 1', 1)
+insert into blog_post values (null, 'this is the post for anonymous liker created by user with id 1', 1)

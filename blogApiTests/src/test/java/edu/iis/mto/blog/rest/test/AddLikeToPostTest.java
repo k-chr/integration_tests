@@ -18,6 +18,7 @@ public class AddLikeToPostTest extends FunctionalTests {
     private final static int ANONYMOUS_LIKER = 0x06;
     private final static int POST_ID = 0x01;
     private final static int POST_ID_2 = 0x02;
+    private final static int POST_FOR_ANON = 0x03;
 
     @Test
     void attemptToAddLikeToPostByUserThatHasNewAccountShouldEndUpWithResponseErrorWithBadRequestStatus() {
@@ -113,7 +114,14 @@ public class AddLikeToPostTest extends FunctionalTests {
 
     @Test
     void attemptToAddLikeToPostByUserThatHasConfirmedAccountAndIsNotOwnerOfPostShouldEndUpWithResponseSuccessWithOkStatus() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .when()
+                .post(likeApiForUserIdAndPostId(ANONYMOUS_LIKER, POST_FOR_ANON));
     }
 
     @Test
