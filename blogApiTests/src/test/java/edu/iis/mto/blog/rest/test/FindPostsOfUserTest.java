@@ -24,7 +24,16 @@ public class FindPostsOfUserTest extends FunctionalTests {
 
     @Test
     void attemptToFindPostsOfValidUserShouldEndUpWithResponseSuccessWithOkStatusAndLikedPostWithCorrectCountOfLikes() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .when()
+                .get(postApiForId(POST_OWNER))
+                .then()
+                .body("likesCount", hasItem(2));
     }
 
     @Test
@@ -48,9 +57,9 @@ public class FindPostsOfUserTest extends FunctionalTests {
                 .all()
                 .statusCode(HttpStatus.SC_OK)
                 .when()
-                .get(postApiForId(POST_OWNER))
+                .get(postApiForId(NEW_USER))
                 .then()
-                .body("likesCount", hasItem(2));
+                .body("size()", is(equalTo(0)));
     }
 
     @Test
