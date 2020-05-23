@@ -6,6 +6,8 @@ public class TestConstants {
     public static final String TYPE = "Content-Type";
 
     public static final String REMOVED_USER_SEARCH_STRING = "Cena";
+    public static final String VALID_FULL_NAME = "John";
+    public static final String VALID_PART_OF_NAME = "homas";
 
     private static final String USER_API = "/user";
     private static final String ROOT_API = "/blog";
