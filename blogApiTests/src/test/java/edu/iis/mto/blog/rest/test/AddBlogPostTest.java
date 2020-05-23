@@ -66,7 +66,7 @@ public class AddBlogPostTest extends FunctionalTests {
                 .post(createPostApiForId(USER_THAT_NOT_EXISTS));
     }
 
-    private String testJson(){
+    private String testJson() {
         return new JSONObject().put("entry","some not important notes").toString();
     }
 }

@@ -11,7 +11,7 @@ public class FunctionalTests {
     static final String USER_API = "/blog/user";
     static final String USER_POST_API = "/post";
 
-    static String createPostApiForId(int id){
+    static String createPostApiForId(int id) {
         return USER_API + "/" + id + USER_POST_API;
     }
 
