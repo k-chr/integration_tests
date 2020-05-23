@@ -25,4 +25,9 @@ public class CreateUserTest extends FunctionalTests {
                .when()
                .post(USER_API);
     }
+
+    @Test
+    public void attemptToCreatingUserFromPostJsonWithNotUniqueEmailShouldReturnErrorWithHTTPConflictCode () {
+        
+    }
 }
