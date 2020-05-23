@@ -38,7 +38,14 @@ public class FindPostsOfUserTest extends FunctionalTests {
 
     @Test
     void attemptToFindPostsOfNonExistingUserShouldEndUpWithResponseErrorWithNotFoundStatus() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_NOT_FOUND)
+                .when()
+                .get(postApiForId(NOT_EXISTING_USER));
     }
 
     @Test

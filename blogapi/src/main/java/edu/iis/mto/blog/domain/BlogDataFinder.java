@@ -58,9 +58,11 @@ public class BlogDataFinder extends DomainService implements DataFinder {
         User user = userRepository.findById(userId)
                                   .orElseThrow(domainError(DomainError.USER_NOT_FOUND));
         var status = user.getAccountStatus();
-        if(status == AccountStatus.REMOVED){
+
+        if(status == AccountStatus.REMOVED) {
             throw new DomainError(DomainError.USER_REMOVED);
         }
+
         List<BlogPost> posts = blogPostRepository.findByUser(user);
         return posts.stream()
                     .map(mapper::mapToDto)

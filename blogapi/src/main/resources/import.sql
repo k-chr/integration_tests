@@ -8,3 +8,7 @@ insert into user (account_status, email, first_name, last_name) values ('CONFIRM
 insert into blog_post values (null, 'some not important notes of confirmed user with id 1', 1)
 insert into blog_post values (null, 'another not important notes of confirmed user with id 1', 1)
 insert into blog_post values (null, 'this is the post for anonymous liker created by user with id 1', 1)
+insert into blog_post values (null, 'this is the post of anonymous it has no likes', 6)
+insert into blog_post values (null, 'this is the post of user with id 1 and two users will add like to this post', 1)
+insert into like_post (id, user_id, post_id) values (null, 4,5)
+insert into like_post (id, user_id, post_id) values (null, 5,5)
