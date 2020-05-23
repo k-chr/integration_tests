@@ -10,9 +10,14 @@ public class FunctionalTests {
     static final String TYPE = "Content-Type";
     static final String USER_API = "/blog/user";
     static final String USER_POST_API = "/post";
+    static final String POST_LIKE_API = "/like";
 
     static String createPostApiForId(int id) {
         return USER_API + "/" + id + USER_POST_API;
+    }
+
+    static String addLikeApiForUserIdAndPostId(int userId, int postId){
+        return USER_API + '/' + userId + POST_LIKE_API + '/' + postId;
     }
 
     @BeforeAll
