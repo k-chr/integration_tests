@@ -5,6 +5,7 @@ import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
 
 public class FindPostsOfUserTest extends FunctionalTests {
 
@@ -51,6 +52,21 @@ public class FindPostsOfUserTest extends FunctionalTests {
     @Test
     void attemptToFindPostsOfValidUserWhoHasNoPostsShouldEndUpWithResponseSuccessWithOkStatusAndEmptyListOfPosts() {
 
+    }
+
+    @Test
+    void attemptToFindPostsOfConfirmedUserWhoHasPostsButWithoutLikesShouldEndUpWithResponseSuccessWithOkStatusAndListOfPostsWithoutLikes() {
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .when()
+                .get(postApiForId(ANONYMOUS_LIKER))
+                .then()
+                .body("size()", is(equalTo(1)))
+                .body("likesCount", hasItem(0));
     }
 
     @Test
