@@ -42,6 +42,7 @@ public class BlogDataFinder extends DomainService implements DataFinder {
                 searchString, searchString);
 
         return users.stream()
+                    .filter(BlogDataFinder::isNotRemoved)
                     .map(mapper::mapToDto)
                     .collect(Collectors.toList());
     }
@@ -69,4 +70,7 @@ public class BlogDataFinder extends DomainService implements DataFinder {
                     .collect(Collectors.toList());
     }
 
+    private static boolean isNotRemoved(User user){
+        return user.getAccountStatus() != AccountStatus.REMOVED;
+    }
 }
