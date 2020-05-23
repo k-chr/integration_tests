@@ -5,6 +5,8 @@ public class TestConstants {
     public static final String OPTION_JSON = "application/json;charset=UTF-8";
     public static final String TYPE = "Content-Type";
 
+    public static final String REMOVED_USER_SEARCH_STRING = "Cena";
+
     private static final String USER_API = "/user";
     private static final String ROOT_API = "/blog";
     private static final String USER_POST_API = "/post";
