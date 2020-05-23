@@ -1,15 +1,18 @@
 package edu.iis.mto.blog.api;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import edu.iis.mto.blog.domain.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -53,8 +56,12 @@ public class BlogApiTest {
     }
 
     @Test
-    public void ifDataLayerThrewDataIntegrityViolationExceptionOnDataAccessAttemptBlogApiShouldReturnErrorResponseWith409Code() {
-        
+    public void ifDataLayerThrewDataIntegrityViolationExceptionOnDataAccessAttemptBlogApiShouldReturnErrorResponseWith409Code() throws Exception {
+        when(blogService.createUser(any(UserRequest.class))).thenThrow(new DataIntegrityViolationException("Invalid data"));
+        mvc.perform(post("/blog/user")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{}")).andExpect(status().isConflict());
     }
 
     @Test
