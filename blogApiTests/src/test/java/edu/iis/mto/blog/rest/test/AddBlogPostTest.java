@@ -1,5 +1,6 @@
 package edu.iis.mto.blog.rest.test;
 
+import static edu.iis.mto.blog.rest.test.TestConstants.*;
 import static io.restassured.RestAssured.given;
 
 import io.restassured.http.ContentType;
@@ -8,12 +9,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 public class AddBlogPostTest extends FunctionalTests {
-
-    private final static int USER_NEW = 0x02;
-    private final static int USER_CONFIRMED = 0x01;
-    private final static int USER_REMOVED = 0x03;
-    private final static int USER_THAT_NOT_EXISTS = 0xFFFFFFFF;
-
+    
     @Test
     void attemptToAddPostByNewUserShouldEndUpWithResponseErrorWithBadRequestStatus() {
         given().accept(ContentType.JSON)
@@ -24,7 +20,7 @@ public class AddBlogPostTest extends FunctionalTests {
                 .all()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .when()
-                .post(postApiForId(USER_NEW));
+                .post(postApiForId(NEW_USER));
     }
 
     @Test
@@ -50,7 +46,7 @@ public class AddBlogPostTest extends FunctionalTests {
                 .all()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .when()
-                .post(postApiForId(USER_REMOVED));
+                .post(postApiForId(REMOVED_USER));
     }
 
     @Test
@@ -63,7 +59,7 @@ public class AddBlogPostTest extends FunctionalTests {
                 .all()
                 .statusCode(HttpStatus.SC_NOT_FOUND)
                 .when()
-                .post(postApiForId(USER_THAT_NOT_EXISTS));
+                .post(postApiForId(NOT_EXISTING_USER));
     }
 
     private String testJson() {
