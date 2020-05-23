@@ -111,7 +111,7 @@ public class AddLikeToPostTest extends FunctionalTests {
                 .all()
                 .statusCode(HttpStatus.SC_OK)
                 .when()
-                .post(likeApiForUserIdAndPostId(ANONYMOUS_LIKER, POST_FOR_ANON));
+                .post(likeApiForUserIdAndPostId(ANONYMOUS_USER, POST_FOR_ANON));
     }
 
     @Test

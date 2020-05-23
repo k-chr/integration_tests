@@ -9,7 +9,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 public class FindPostsOfUserTest extends FunctionalTests {
-    
+
     @Test
     void attemptToFindPostsOfRemovedUserShouldEndUpWithResponseErrorWithBadRequestStatus() {
         given().accept(ContentType.JSON)
@@ -41,7 +41,16 @@ public class FindPostsOfUserTest extends FunctionalTests {
 
     @Test
     void attemptToFindPostsOfValidUserWhoHasNoPostsShouldEndUpWithResponseSuccessWithOkStatusAndEmptyListOfPosts() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .when()
+                .get(postApiForId(POST_OWNER))
+                .then()
+                .body("likesCount", hasItem(2));
     }
 
     @Test
@@ -53,7 +62,7 @@ public class FindPostsOfUserTest extends FunctionalTests {
                 .all()
                 .statusCode(HttpStatus.SC_OK)
                 .when()
-                .get(postApiForId(ANONYMOUS_LIKER))
+                .get(postApiForId(ANONYMOUS_USER))
                 .then()
                 .body("size()", is(equalTo(1)))
                 .body("likesCount", hasItem(0));

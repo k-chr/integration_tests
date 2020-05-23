@@ -17,7 +17,7 @@ public class TestConstants {
     public final static int USER_CONFIRMED = POST_OWNER;
     public final static int SECOND_LIKER = 0x05;
     public final static int NOT_EXISTING_USER = 0xFFFFFFFF;
-    public final static int ANONYMOUS_LIKER = 0x06;
+    public final static int ANONYMOUS_USER = 0x06;
     public final static int POST_ID = 0x01;
     public final static int POST_ID_2 = 0x02;
     public final static int POST_FOR_ANON = 0x03;
