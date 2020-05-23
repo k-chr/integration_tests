@@ -15,6 +15,8 @@ public class TestConstants {
     public static final String VALID_FULL_EMAIL = "is_not_this_the_song_with_the_fibonacci_sequence_question_mark@domain.com";
     public static final String VALID_PART_OF_EMAIL = "@domain.com";
 
+    public static final String GET_LIST = "stream().toList()";
+
     private static final String USER_API = "/user";
     private static final String ROOT_API = "/blog";
     private static final String USER_POST_API = "/post";
