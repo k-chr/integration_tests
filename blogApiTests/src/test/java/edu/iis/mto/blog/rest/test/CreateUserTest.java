@@ -1,5 +1,6 @@
 package edu.iis.mto.blog.rest.test;
 
+import static edu.iis.mto.blog.rest.test.TestConstants.*;
 import static io.restassured.RestAssured.given;
 
 import org.apache.http.HttpStatus;
