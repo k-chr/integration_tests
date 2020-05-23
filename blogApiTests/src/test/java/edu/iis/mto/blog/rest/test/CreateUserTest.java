@@ -27,7 +27,16 @@ public class CreateUserTest extends FunctionalTests {
     }
 
     @Test
-    public void attemptToCreatingUserFromPostJsonWithNotUniqueEmailShouldReturnErrorWithHTTPConflictCode () {
-        
+    public void attemptToCreateUserFromPostJsonWithNotUniqueEmailShouldReturnErrorWithHTTPConflictCode () {
+        var json = new JSONObject().put("email", "brian@domain.com").toString();
+        given().accept(ContentType.JSON)
+                .header("Content-Type","application/json;charset=UTF-8")
+                .body(json)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_CONFLICT)
+                .when()
+                .post(USER_API);
     }
 }
