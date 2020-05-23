@@ -24,7 +24,7 @@ public class AddBlogPostTest extends FunctionalTests {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .post(createPostApiForId(USER_NEW));
+               .post(postApiForId(USER_NEW));
     }
 
     @Test
@@ -37,7 +37,7 @@ public class AddBlogPostTest extends FunctionalTests {
                 .all()
                 .statusCode(HttpStatus.SC_CREATED)
                 .when()
-                .post(createPostApiForId(USER_CONFIRMED));
+                .post(postApiForId(USER_CONFIRMED));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class AddBlogPostTest extends FunctionalTests {
                 .all()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .when()
-                .post(createPostApiForId(USER_REMOVED));
+                .post(postApiForId(USER_REMOVED));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class AddBlogPostTest extends FunctionalTests {
                 .all()
                 .statusCode(HttpStatus.SC_NOT_FOUND)
                 .when()
-                .post(createPostApiForId(USER_THAT_NOT_EXISTS));
+                .post(postApiForId(USER_THAT_NOT_EXISTS));
     }
 
     private String testJson() {
