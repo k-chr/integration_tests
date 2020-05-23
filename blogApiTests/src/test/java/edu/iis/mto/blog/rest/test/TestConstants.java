@@ -8,6 +8,12 @@ public class TestConstants {
     public static final String REMOVED_USER_SEARCH_STRING = "Cena";
     public static final String VALID_FULL_NAME = "John";
     public static final String VALID_PART_OF_NAME = "homas";
+    public static final String INVALID = "XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD";
+    public static final String EMPTY = "";
+    public static final String VALID_FULL_LAST_NAME = "Nameless";
+    public static final String VALID_PART_OF_LAST_NAME = "teralus";
+    public static final String VALID_FULL_EMAIL = "is_not_this_the_song_with_the_fibonacci_sequence_question_mark@domain.com";
+    public static final String VALID_PART_OF_EMAIL = "@domain.com";
 
     private static final String USER_API = "/user";
     private static final String ROOT_API = "/blog";
