@@ -9,6 +9,7 @@ public class TestConstants {
     private static final String ROOT_API = "/blog";
     private static final String USER_POST_API = "/post";
     private static final String POST_LIKE_API = "/like";
+    private static final String FIND_USER_API = "/find?searchString=";
 
     public final static int FIRST_LIKER = 0x04;
     public final static int NEW_USER = 0x02;
@@ -36,5 +37,9 @@ public class TestConstants {
 
     public static String likeApiForUserIdAndPostId(int userId, int postId) {
         return userApi() + '/' + userId + POST_LIKE_API + '/' + postId;
+    }
+
+    public static String findUserByStringApi(String pattern){
+        return userApi() + FIND_USER_API + pattern;
     }
 }
