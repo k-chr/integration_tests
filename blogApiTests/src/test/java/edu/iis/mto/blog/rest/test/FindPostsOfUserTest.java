@@ -71,6 +71,15 @@ public class FindPostsOfUserTest extends FunctionalTests {
 
     @Test
     void attemptToFindPostsOfValidUserWhoHasPostsShouldEndUpWithResponseSuccessWithOkStatusAndListOfPostsWithCorrectCount() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .when()
+                .get(postApiForId(POST_OWNER))
+                .then()
+                .body("size()", is(equalTo(4)));
     }
 }
