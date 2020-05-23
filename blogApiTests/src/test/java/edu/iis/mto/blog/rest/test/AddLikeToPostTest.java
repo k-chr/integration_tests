@@ -17,6 +17,7 @@ public class AddLikeToPostTest extends FunctionalTests {
     private final static int NOT_EXISTING_USER = 0xFFFFFFFF;
     private final static int ANONYMOUS_LIKER = 0x06;
     private final static int POST_ID = 0x01;
+    private final static int POST_ID_2 = 0x02;
 
     @Test
     void attemptToAddLikeToPostByUserThatHasNewAccountShouldEndUpWithResponseErrorWithBadRequestStatus() {
@@ -88,12 +89,26 @@ public class AddLikeToPostTest extends FunctionalTests {
 
     @Test
     void attemptToAddLikeToPostByUserThatHasRemovedAccountShouldEndUpWithResponseErrorWithBadRequestStatus() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .when()
+                .post(likeApiForUserIdAndPostId(REMOVED_USER, POST_ID));
     }
 
     @Test
     void attemptToAddLikeToPostByUserThatNotExistsShouldEndUpWithResponseErrorWithNotFoundStatus() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_NOT_FOUND)
+                .when()
+                .post(likeApiForUserIdAndPostId(NOT_EXISTING_USER, POST_ID));
     }
 
     @Test
