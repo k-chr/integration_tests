@@ -14,18 +14,18 @@ public class CreateUserTest extends FunctionalTests {
     public void createUserWithProperDataReturnsCreatedStatus() {
         JSONObject jsonObj = new JSONObject().put("email", "tracy1@domain.com");
         given().accept(ContentType.JSON)
-               .header(TYPE, OPTION_JSON)
-               .body(jsonObj.toString())
-               .expect()
-               .log()
-               .all()
-               .statusCode(HttpStatus.SC_CREATED)
-               .when()
-               .post(userApi());
+                .header(TYPE, OPTION_JSON)
+                .body(jsonObj.toString())
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_CREATED)
+                .when()
+                .post(userApi());
     }
 
     @Test
-    public void attemptToCreateUserFromPostJsonWithNotUniqueEmailShouldReturnErrorWithHTTPConflictCode () {
+    public void attemptToCreateUserFromPostJsonWithNotUniqueEmailShouldReturnErrorWithHTTPConflictCode() {
         var json = new JSONObject().put("email", "brian@domain.com").toString();
         given().accept(ContentType.JSON)
                 .header(TYPE, OPTION_JSON)

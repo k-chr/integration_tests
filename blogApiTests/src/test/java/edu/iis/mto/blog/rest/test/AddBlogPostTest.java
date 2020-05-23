@@ -17,14 +17,14 @@ public class AddBlogPostTest extends FunctionalTests {
     @Test
     void attemptToAddPostByNewUserShouldEndUpWithResponseErrorWithBadRequestStatus() {
         given().accept(ContentType.JSON)
-               .header(TYPE, OPTION_JSON)
-               .body(testJson())
-               .expect()
-               .log()
-               .all()
-               .statusCode(HttpStatus.SC_BAD_REQUEST)
-               .when()
-               .post(postApiForId(USER_NEW));
+                .header(TYPE, OPTION_JSON)
+                .body(testJson())
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .when()
+                .post(postApiForId(USER_NEW));
     }
 
     @Test
@@ -67,6 +67,6 @@ public class AddBlogPostTest extends FunctionalTests {
     }
 
     private String testJson() {
-        return new JSONObject().put("entry","some not important notes").toString();
+        return new JSONObject().put("entry", "some not important notes").toString();
     }
 }

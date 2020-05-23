@@ -17,15 +17,15 @@ public class FunctionalTests {
         return userApi() + "/" + id + USER_POST_API;
     }
 
-    static String postApiForPostId(int postId){
+    static String postApiForPostId(int postId) {
         return ROOT_API + USER_POST_API + '/' + postId;
     }
 
-    static String userApi(){
+    static String userApi() {
         return ROOT_API + USER_API;
     }
 
-    static String likeApiForUserIdAndPostId(int userId, int postId){
+    static String likeApiForUserIdAndPostId(int userId, int postId) {
         return userApi() + '/' + userId + POST_LIKE_API + '/' + postId;
     }
 
