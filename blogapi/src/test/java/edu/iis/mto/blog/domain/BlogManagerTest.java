@@ -38,34 +38,27 @@ import java.util.Optional;
 @SpringBootTest
 public class BlogManagerTest {
 
-    @MockBean
-    private UserRepository userRepository;
-
-    @MockBean
-    private BlogPostRepository blogPostRepository;
-
-    @MockBean
-    private LikePostRepository likePostRepository;
-
-    @Autowired
-    private BlogDataMapper dataMapper;
-
-    @Autowired
-    private BlogService blogService;
-
-    @Captor
-    private ArgumentCaptor<User> userParam;
-
     private final long FAKE_USER_ID_1 = 0x01;
     private final long FAKE_USER_ID_2 = 0x02;
     private final long FAKE_POST_ID_1 = 0x03;
-
+    @MockBean
+    private UserRepository userRepository;
+    @MockBean
+    private BlogPostRepository blogPostRepository;
+    @MockBean
+    private LikePostRepository likePostRepository;
+    @Autowired
+    private BlogDataMapper dataMapper;
+    @Autowired
+    private BlogService blogService;
+    @Captor
+    private ArgumentCaptor<User> userParam;
     private User owner;
     private User theManWhoLikes;
     private BlogPost post;
 
     @Before
-    public void setUp()  {
+    public void setUp() {
         initEntities();
         initUser(owner, "Edward", "McDonald", "some_mail@example.com", AccountStatus.NEW, FAKE_USER_ID_1);
         initUser(theManWhoLikes, "Sigfrid", "Lehman", "sig@elpmaxe.com", AccountStatus.NEW, FAKE_USER_ID_2);
@@ -92,7 +85,7 @@ public class BlogManagerTest {
     }
 
     @Test
-    public void ifConfirmedUserTriedToLikePostOfOtherUserRepositoryShouldSaveLike(){
+    public void ifConfirmedUserTriedToLikePostOfOtherUserRepositoryShouldSaveLike() {
         theManWhoLikes.setAccountStatus(AccountStatus.CONFIRMED);
         when(userRepository.findById(FAKE_USER_ID_1)).thenReturn(Optional.of(owner));
         when(userRepository.findById(FAKE_USER_ID_2)).thenReturn(Optional.of(theManWhoLikes));
@@ -103,7 +96,7 @@ public class BlogManagerTest {
         var likePostCaptor = ArgumentCaptor.forClass(LikePost.class);
         verify(likePostRepository).save(likePostCaptor.capture());
         var likePost = likePostCaptor.getValue();
-        
+
         assertThat(likePost, isLikedBy(theManWhoLikes));
         assertThat(likePost, hasContentSuchAs(post));
     }
@@ -115,11 +108,11 @@ public class BlogManagerTest {
         when(blogPostRepository.findById(FAKE_POST_ID_1)).thenReturn(Optional.of(post));
         when(likePostRepository.findByUserAndPost(owner, post)).thenReturn(Optional.empty());
 
-        var exception = assertThrows(DomainError.class, ()->blogService.addLikeToPost(FAKE_USER_ID_1, FAKE_POST_ID_1));
+        var exception = assertThrows(DomainError.class, () -> blogService.addLikeToPost(FAKE_USER_ID_1, FAKE_POST_ID_1));
         assertThat(exception, hasMessage(DomainError.SELF_LIKE));
     }
 
-    private void initEntities(){
+    private void initEntities() {
         owner = new User();
         theManWhoLikes = new User();
         post = new BlogPost();
