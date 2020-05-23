@@ -42,12 +42,28 @@ public class AddBlogPostTest extends FunctionalTests {
 
     @Test
     void attemptToAddPostByRemovedUserShouldEndUpWithResponseErrorWithBadRequestStatus() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .body(testJson())
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_BAD_REQUEST)
+                .when()
+                .post(createPostApiForId(USER_REMOVED));
     }
 
     @Test
     void attemptToAddPostByNotExistingUserShouldEndUpWithResponseErrorWithNotFoundStatus() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .body(testJson())
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_NOT_FOUND)
+                .when()
+                .post(createPostApiForId(USER_THAT_NOT_EXISTS));
     }
 
     private String testJson(){
