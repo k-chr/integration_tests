@@ -20,7 +20,7 @@ public class FindUserTest extends FunctionalTests {
                 .all()
                 .statusCode(HttpStatus.SC_OK)
                 .and()
-                .body(GET_LIST,is((empty())))
+                .body(GET_LIST, is(empty()))
                 .when()
                 .get(findUserByStringApi(REMOVED_USER_SEARCH_STRING));
     }
@@ -84,12 +84,30 @@ public class FindUserTest extends FunctionalTests {
 
     @Test
     void attemptToFindValidUsersByFullEmailShouldEndUpWithResponseSuccessWithOkStatusAndNotEmptyResultWithCorrectCount() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .and()
+                .body(GET_LIST, is(not(empty())))
+                .when()
+                .get(findUserByStringApi(VALID_FULL_EMAIL));
     }
 
     @Test
     void attemptToFindValidUsersByPartOfEmailShouldEndUpWithResponseSuccessWithOkStatusAndNotEmptyResult() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .and()
+                .body(GET_LIST, is(not(empty())))
+                .when()
+                .get(findUserByStringApi(VALID_PART_OF_EMAIL));
     }
 
     @Test
