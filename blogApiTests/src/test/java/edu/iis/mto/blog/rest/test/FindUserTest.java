@@ -112,11 +112,30 @@ public class FindUserTest extends FunctionalTests {
 
     @Test
     void attemptToFindValidUsersByInvalidDataShouldEndUpWithResponseSuccessWithOkStatusAndEmptyResult() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .and()
+                .body(GET_LIST, is(empty()))
+                .when()
+                .get(findUserByStringApi(INVALID));
     }
 
     @Test
     void attemptToFindValidUsersByEmptyStringShouldEndUpWithResponseSuccessWithOkStatusAndResultListThatContainsAllUsersWithoutRemovedOnes() {
-
+        given().accept(ContentType.JSON)
+                .header(TYPE, OPTION_JSON)
+                .expect()
+                .log()
+                .all()
+                .statusCode(HttpStatus.SC_OK)
+                .and()
+                .body(GET_LIST, is(not(empty())))
+                .body("lastName", not(hasItem(REMOVED_USER_SEARCH_STRING)))
+                .when()
+                .get(findUserByStringApi(EMPTY));
     }
 }
