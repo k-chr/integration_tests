@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import edu.iis.mto.blog.domain.errors.DomainError;
-import edu.iis.mto.blog.domain.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +25,6 @@ import edu.iis.mto.blog.api.request.UserRequest;
 import edu.iis.mto.blog.dto.Id;
 import edu.iis.mto.blog.services.BlogService;
 import edu.iis.mto.blog.services.DataFinder;
-
-import javax.persistence.EntityNotFoundException;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(BlogApi.class)
@@ -53,10 +50,10 @@ public class BlogApiTest {
         String content = writeJson(user);
 
         mvc.perform(post("/blog/user").contentType(MediaType.APPLICATION_JSON)
-                                      .accept(MediaType.APPLICATION_JSON)
-                                      .content(content))
-           .andExpect(status().isCreated())
-           .andExpect(content().string(writeJson(new Id(newUserId))));
+                .accept(MediaType.APPLICATION_JSON)
+                .content(content))
+                .andExpect(status().isCreated())
+                .andExpect(content().string(writeJson(new Id(newUserId))));
     }
 
     @Test
@@ -76,7 +73,7 @@ public class BlogApiTest {
 
     private String writeJson(Object obj) throws JsonProcessingException {
         return new ObjectMapper().writer()
-                                 .writeValueAsString(obj);
+                .writeValueAsString(obj);
     }
 
 }

@@ -20,18 +20,15 @@ import edu.iis.mto.blog.domain.model.User;
 @DataJpaTest
 public class UserRepositoryTest {
 
-    @Autowired
-    private TestEntityManager entityManager;
-
-    @Autowired
-    private UserRepository repository;
-
-    private User user;
-
     private final String invalidName = "thisIsSurelyInvalidFirstNameThatShouldNotExist";
     private final String invalidLastName = "thisIsSurelyInvalidLastNameThatShouldNotExist";
     private final String invalidEmail = "inAPerfectWorldEmailsLikeThisWouldNotExist@butThisIsNotAPerfect.World";
-    
+    @Autowired
+    private TestEntityManager entityManager;
+    @Autowired
+    private UserRepository repository;
+    private User user;
+
     @Before
     public void setUp() {
         user = new User();
@@ -80,7 +77,7 @@ public class UserRepositoryTest {
     @Test
     public void providingEmptyStringsToQueryRepositoryShouldReturnListOfUsersThatContainsGivenUser() {
         entityManager.persist(user);
-        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("","", "");
+        var listOfUsers = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("", "", "");
         assertThat(listOfUsers, contains(user));
     }
 

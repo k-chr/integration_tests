@@ -13,7 +13,7 @@ public class ExceptionMatcher extends TypeSafeMatcher<Exception> {
         this.message = message;
     }
 
-    public static Matcher<Exception> hasMessage(String message){
+    public static Matcher<Exception> hasMessage(String message) {
         return new ExceptionMatcher(message);
     }
 
